@@ -30,11 +30,6 @@ class _MainNavigationState extends State<MainNavigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(_getScreenTitle()),
-        backgroundColor: const Color(0xFF1E3A8A),
-        foregroundColor: Colors.white,
-      ),
       body: _screens[_currentIndex],
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(left: 24, right: 24, bottom: 16),
