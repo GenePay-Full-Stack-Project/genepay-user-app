@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       child: const Icon(
                         Icons.notifications,
-                        color: Color.fromARGB(255, 255, 255, 255),
+                        color: Colors.white,
                         size: 24,
                       ),
                     ),
@@ -118,7 +118,132 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               // Combined card with gradient
-             
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [Color(0xFF3B4A7D), Color(0xFF4A7B9D)],
+                    ),
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Face registration section (dynamic)
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: (_user?.faceEnrolled ?? false)
+                                  ? const Color(0xFF4CAF50)
+                                  : const Color(0xFFFFC107),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              (_user?.faceEnrolled ?? false)
+                                  ? Icons.verified
+                                  : Icons.error,
+                              color: Colors.white,
+                              size: 26,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                (_user?.faceEnrolled ?? false)
+                                    ? 'Face registered'
+                                    : 'Face not registered',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                (_user?.faceEnrolled ?? false)
+                                    ? 'Ready for payments'
+                                    : 'Go to nearest branch to register',
+                                style: const TextStyle(
+                                  color: Color(0xFFCCD5E8),
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Divider line
+                      Container(
+                        height: 1,
+                        color: Colors.white.withOpacity(0.2),
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Active Payment Method section
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Active Payment Method',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                _activeCard != null
+                                    ? '**** **** **** ${_activeCard!.cardLast4}'
+                                    : 'No active card',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 2,
+                                ),
+                              ),
+                            ],
+                          ),
+                          // TextButton(
+                          //   onPressed: () {},
+                          //   style: TextButton.styleFrom(
+                          //     padding: EdgeInsets.zero,
+                          //     minimumSize: const Size(0, 0),
+                          //     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          //   ),
+                          //   child: const Text(
+                          //     'Change',
+                          //     style: TextStyle(
+                          //       color: Color(0xFFFF5542),
+                          //       fontWeight: FontWeight.bold,
+                          //       fontSize: 16,
+                          //     ),
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+
               // Recent Payments section
               Expanded(
                 child: Container(
