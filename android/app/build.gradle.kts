@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.example.genepay_user_app"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "28.2.13676358" // Use specific NDK version
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
