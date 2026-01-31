@@ -1,6 +1,14 @@
 import '../models/transaction.dart';
 
 class PaymentService {
+  static final PaymentService _instance = PaymentService._internal();
+
+  factory PaymentService() {
+    return _instance;
+  }
+
+  PaymentService._internal();
+
   String? _authToken;
 
   Future<void> initialize() async {
@@ -31,5 +39,11 @@ class PaymentService {
         status: TransactionStatus.completed,
       ),
     ];
+  }
+
+  Future<double> getUserTotalSpends(String userId) async {
+    // Mock implementation
+    await Future.delayed(const Duration(milliseconds: 500));
+    return 12500.00;
   }
 }
