@@ -27,16 +27,24 @@ class PaymentService {
       Transaction(
         id: '1',
         merchantName: 'Supermarket',
+        merchantId: 'merchant_1',
         amount: 2500.00,
+        currency: 'LKR',
         createdAt: DateTime.now().subtract(const Duration(hours: 2)),
         status: TransactionStatus.completed,
+        type: TransactionType.payment,
+        biometricVerified: true,
       ),
       Transaction(
         id: '2',
         merchantName: 'Gas Station',
+        merchantId: 'merchant_2',
         amount: 5000.00,
+        currency: 'LKR',
         createdAt: DateTime.now().subtract(const Duration(hours: 5)),
         status: TransactionStatus.completed,
+        type: TransactionType.payment,
+        biometricVerified: true,
       ),
     ];
   }
