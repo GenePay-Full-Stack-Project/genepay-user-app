@@ -46,6 +46,30 @@ class AuthService {
     _token = 'mock-token';
   }
 
+  Future<void> register({
+    required String name,
+    required String email,
+    required String nicNumber,
+    required String phoneNumber,
+    required String password,
+  }) async {
+    // Mock registration
+    await Future.delayed(const Duration(milliseconds: 800));
+    
+    if (name.trim().isEmpty || email.trim().isEmpty || 
+        nicNumber.trim().isEmpty || phoneNumber.trim().isEmpty || 
+        password.trim().isEmpty) {
+      throw Exception('All fields are required');
+    }
+    
+    if (password.length < 8) {
+      throw Exception('Password must be at least 8 characters');
+    }
+    
+    // Simulate successful registration
+    _userId = '1';
+  }
+
   String? getToken() => _token;
 
   Future<void> setToken(String token) async {
