@@ -29,6 +29,16 @@ class AuthService {
     return _userId;
   }
 
+  Future<void> login(String nic, String password) async {
+    await Future.delayed(const Duration(milliseconds: 600));
+    if (nic.trim().isEmpty || password.trim().isEmpty) {
+      throw Exception('Invalid credentials');
+    }
+
+    _userId = '1';
+    _token = 'mock-token';
+  }
+
   String? getToken() => _token;
 
   Future<void> setToken(String token) async {
