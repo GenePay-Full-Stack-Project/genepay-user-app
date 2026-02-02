@@ -22,6 +22,21 @@ class UserService {
       id: userId,
       name: 'John Doe',
       email: 'john.doe@example.com',
+      nicNumber: '123456789V',
+      phoneNumber: '+94771234567',
+      faceEnrolled: false,
+    );
+  }
+
+  Future<User> updateUser(String userId, Map<String, dynamic> data) async {
+    // Mock implementation - replace with actual API call
+    await Future.delayed(const Duration(milliseconds: 800));
+    return User(
+      id: userId,
+      name: data['fullName'] ?? 'John Doe',
+      email: 'john.doe@example.com',
+      nicNumber: '123456789V',
+      phoneNumber: data['phoneNumber'] ?? '+94771234567',
       faceEnrolled: false,
     );
   }

@@ -12,6 +12,11 @@ class AuthService {
   String? _token;
   String? _userId = '1';
 
+  Future<void> initialize() async {
+    // Mock initialization - load token from storage if needed
+    await Future.delayed(const Duration(milliseconds: 100));
+  }
+
   Future<User> getCurrentUser() async {
     // Mock implementation
     await Future.delayed(const Duration(seconds: 1));
@@ -19,6 +24,8 @@ class AuthService {
       id: _userId,
       name: 'John Doe',
       email: 'john@example.com',
+      nicNumber: '123456789V',
+      phoneNumber: '+94771234567',
       faceEnrolled: false,
     );
   }
