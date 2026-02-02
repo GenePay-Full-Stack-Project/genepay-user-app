@@ -12,14 +12,14 @@ class NotificationHelper {
     );
   }
 
-  static void showError(BuildContext context, {String? message, Object? error}) {
+  static void showError(BuildContext context, {String? message, Object? error, Duration? duration}) {
     final errorMessage = message ?? error?.toString() ?? 'An error occurred';
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(errorMessage),
         backgroundColor: Colors.red,
         behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 4),
+        duration: duration ?? const Duration(seconds: 4),
       ),
     );
   }
