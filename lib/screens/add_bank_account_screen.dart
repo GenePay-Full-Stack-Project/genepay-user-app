@@ -276,7 +276,7 @@ class _AddBankAccountScreenState extends State<AddBankAccountScreen> {
                                 ),
                                 children: [
                                   TextSpan(
-                                    text: 'By clicking, I agree to FacePay\'s ',
+                                    text: 'By clicking, I agree to GenePay\'s ',
                                   ),
                                   TextSpan(
                                     text: 'terms and conditions',
