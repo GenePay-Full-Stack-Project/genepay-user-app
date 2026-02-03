@@ -1,83 +1,133 @@
+import 'api_service.dart';
+import '../models/auth_response.dart';
+import '../models/login_request.dart';
+import '../models/register_request.dart';
 import '../models/user.dart';
+import 'user_service.dart';
+import '../models/token_verify_response.dart';
 
-class AuthService {
-  static final AuthService _instance = AuthService._internal();
+class AuthService extends ApiService {
+  AuthService({super.client});
 
-  factory AuthService() {
-    return _instance;
-  }
+  // User login
+  Future<AuthResponse> login(String nicNumber, String password) async {
+    final loginRequest = LoginRequest(nicNumber: nicNumber, password: password);
 
-  AuthService._internal();
-
-  String? _token;
-  String? _userId = '1';
-
-  Future<void> initialize() async {
-    // Mock initialization - load token from storage if needed
-    await Future.delayed(const Duration(milliseconds: 100));
-  }
-
-  Future<User> getCurrentUser() async {
-    // Mock implementation
-    await Future.delayed(const Duration(seconds: 1));
-    return User(
-      id: _userId,
-      name: 'John Doe',
-      email: 'john@example.com',
-      nicNumber: '123456789V',
-      phoneNumber: '+94771234567',
-      faceEnrolled: false,
+    final response = await post<AuthResponse>(
+      '/users/login',
+      loginRequest.toJson(),
+      (json) => AuthResponse.fromJson(json as Map<String, dynamic>),
     );
-  }
 
-  Future<String?> getCurrentUserId() async {
-    // Mock implementation
-    await Future.delayed(const Duration(milliseconds: 200));
-    return _userId;
-  }
-
-  Future<void> login(String nic, String password) async {
-    await Future.delayed(const Duration(milliseconds: 600));
-    if (nic.trim().isEmpty || password.trim().isEmpty) {
-      throw Exception('Invalid credentials');
+    if (response.success && response.data != null) {
+      // Store the authentication token
+      await setAuthToken(response.data!.token);
+      return response.data!;
+    } else {
+      throw ApiException(response.message);
     }
-
-    _userId = '1';
-    _token = 'mock-token';
   }
 
-  Future<void> register({
+  // User registration
+  Future<User> register({
     required String name,
     required String email,
     required String nicNumber,
     required String phoneNumber,
-    required String password,
+    String? password,
   }) async {
-    // Mock registration
-    await Future.delayed(const Duration(milliseconds: 800));
-    
-    if (name.trim().isEmpty || email.trim().isEmpty || 
-        nicNumber.trim().isEmpty || phoneNumber.trim().isEmpty || 
-        password.trim().isEmpty) {
-      throw Exception('All fields are required');
+    final registerRequest = RegisterRequest(
+      fullName: name,
+      email: email,
+      nicNumber: nicNumber,
+      phoneNumber: phoneNumber,
+      password: password,
+    );
+
+    final response = await post<User>(
+      '/users/register',
+      registerRequest.toJson(),
+      (json) => User.fromJson(json as Map<String, dynamic>),
+    );
+
+    if (response.success && response.data != null) {
+      return response.data!;
+    } else {
+      throw ApiException(response.message);
     }
-    
-    if (password.length < 8) {
-      throw Exception('Password must be at least 8 characters');
-    }
-    
-    // Simulate successful registration
-    _userId = '1';
   }
 
-  String? getToken() => _token;
+  // Get current user profile
+  Future<User> getCurrentUser() async {
+    // Some backends route unknown paths like `/users/profile` into
+    // the `GET /users/{userId}` handler which attempts to parse the
+    // value as a number and causes a 500. To avoid that, directly
+    // resolve the user id from the stored JWT and call `/users/{id}`.
+    await initialize();
+    final id = await getCurrentUserId();
+    if (id == null) throw ApiException('Unable to resolve current user id');
 
-  Future<void> setToken(String token) async {
-    _token = token;
+    final userService = UserService();
+    if (getToken() != null) await userService.setAuthToken(getToken()!);
+    return userService.getUserById(id);
   }
 
+  // Note: ApiService already provides getCurrentUserId() which is async.
+
+  // Logout (clear token)
   Future<void> logout() async {
-    _token = null;
-    _userId = null;
+    await clearAuthToken();
+  }
+
+  // Check if user is authenticated
+  Future<bool> isAuthenticated() async {
+    await initialize();
+    final token = getToken();
+    if (token == null || token.isEmpty) return false;
+
+    try {
+      final result = await verifyToken(token);
+      return result.valid;
+    } catch (_) {
+      // If verification fails (network or backend), treat as not authenticated
+      return false;
+    }
+  }
+
+  // Send verification code
+  Future<void> sendVerificationCode(String email) async {
+    final response = await post<void>('/users/send-verification-code', {
+      'email': email,
+    }, (json) {});
+
+    if (!response.success) {
+      throw ApiException(response.message);
+    }
+  }
+
+  // Verify JWT token by calling backend /users/verify-token
+  Future<TokenVerifyResponse> verifyToken(String token) async {
+    final response = await post<TokenVerifyResponse>(
+      '/users/verify-token',
+      {'token': token},
+      (json) => TokenVerifyResponse.fromJson(json as Map<String, dynamic>),
+    );
+
+    if (response.success && response.data != null) {
+      return response.data!;
+    }
+    throw ApiException(response.message);
+  }
+
+  // Verify email
+  Future<void> verifyEmail(String email, String code) async {
+    final response = await post<void>('/users/verify-email', {
+      'email': email,
+      'verificationCode': code,
+    }, (json) {});
+
+    if (!response.success) {
+      throw ApiException(response.message);
+    }
   }
 }
