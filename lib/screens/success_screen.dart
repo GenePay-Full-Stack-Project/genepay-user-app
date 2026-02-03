@@ -43,7 +43,7 @@ class SuccessScreen extends StatelessWidget {
               const SizedBox(height: 16),
               // Success message
               const Text(
-                'Your account has been created successfully.\nYou can now start using FacePay!',
+                'Your account has been created successfully.\nYou can now start using GenePay!',
                 style: TextStyle(
                   fontSize: 16,
                   color: Color(0xFF6B7280),

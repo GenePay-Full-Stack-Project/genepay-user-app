@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
     // If onboarding should be shown, present it first.
     if (_showOnboarding) {
       return MaterialApp(
-        title: 'FacePay',
+        title: 'GenePay',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1E3A8A)),
@@ -69,7 +69,7 @@ class _MyAppState extends State<MyApp> {
     }
 
     return MaterialApp(
-      title: 'FacePay',
+      title: 'GenePay',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1E3A8A)),

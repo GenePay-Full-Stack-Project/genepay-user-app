@@ -38,7 +38,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     OnboardingData(
       image: 'assets/welcome 1.png',
       title: 'Welcome to ',
-      titleHighlight: 'FacePay',
+      titleHighlight: 'GenePay',
       description: 'Pay with just your face\nfast, simple, secure.',
       descriptionHighlight: 'fast, simple, secure.',
       titleColor: Color(0xFF1E3A8A),
