@@ -1,57 +1,159 @@
+import 'api_service.dart';
 import '../models/transaction.dart';
 
-class PaymentService {
-  static final PaymentService _instance = PaymentService._internal();
+class PaymentService extends ApiService {
+  PaymentService({super.client});
 
-  factory PaymentService() {
-    return _instance;
+  // Initiate payment
+  Future<Transaction> initiatePayment({
+    required int userId,
+    required int merchantId,
+    required double amount,
+    required String currency,
+    String? description,
+  }) async {
+    final response = await post<Transaction>(
+      '/payments/initiate?userId=$userId',
+      {
+        'merchantId': merchantId,
+        'amount': amount,
+        'currency': currency,
+        'description': description,
+      },
+      (json) => Transaction.fromJson(json as Map<String, dynamic>),
+    );
+
+    if (response.success && response.data != null) {
+      return response.data!;
+    } else {
+      throw ApiException(response.message);
+    }
   }
 
-  PaymentService._internal();
+  // Verify payment with biometric
+  Future<Transaction> verifyPayment(
+    String transactionId,
+    String faceData,
+  ) async {
+    final response = await post<Transaction>(
+      '/payments/verify',
+      {'transactionId': transactionId, 'faceData': faceData},
+      (json) => Transaction.fromJson(json as Map<String, dynamic>),
+    );
 
-  String? _authToken;
-
-  Future<void> initialize() async {
-    // Initialize payment service
-    await Future.delayed(const Duration(milliseconds: 500));
+    if (response.success && response.data != null) {
+      return response.data!;
+    } else {
+      throw ApiException(response.message);
+    }
   }
 
-  Future<void> setAuthToken(String token) async {
-    _authToken = token;
+  // Get transaction by ID
+  Future<Transaction> getTransaction(int transactionId) async {
+    final response = await get<Transaction>(
+      '/payments/$transactionId',
+      (json) => Transaction.fromJson(json as Map<String, dynamic>),
+    );
+
+    if (response.success && response.data != null) {
+      return response.data!;
+    } else {
+      throw ApiException(response.message);
+    }
   }
 
-  Future<List<Transaction>> getUserTransactions(String userId) async {
-    // Mock implementation
-    await Future.delayed(const Duration(seconds: 1));
-    return [
-      Transaction(
-        id: '1',
-        merchantName: 'Supermarket',
-        merchantId: 'merchant_1',
-        amount: 2500.00,
-        currency: 'LKR',
-        createdAt: DateTime.now().subtract(const Duration(hours: 2)),
-        status: TransactionStatus.completed,
-        type: TransactionType.payment,
-        biometricVerified: true,
-      ),
-      Transaction(
-        id: '2',
-        merchantName: 'Gas Station',
-        merchantId: 'merchant_2',
-        amount: 5000.00,
-        currency: 'LKR',
-        createdAt: DateTime.now().subtract(const Duration(hours: 5)),
-        status: TransactionStatus.completed,
-        type: TransactionType.payment,
-        biometricVerified: true,
-      ),
-    ];
+  // Get user transactions
+  Future<List<Transaction>> getUserTransactions(int userId) async {
+    final response = await get<List<Transaction>>('/payments/user/$userId', (
+      json,
+    ) {
+      // Handle paginated response structure: data.content
+      if (json is Map<String, dynamic> && json.containsKey('content')) {
+        final content = json['content'];
+        if (content is List) {
+          return content
+              .map((item) => Transaction.fromJson(item as Map<String, dynamic>))
+              .toList();
+        }
+      }
+      // Fallback: handle direct list response
+      if (json is List) {
+        return json
+            .map((item) => Transaction.fromJson(item as Map<String, dynamic>))
+            .toList();
+      }
+      return [];
+    });
+
+    if (response.success && response.data != null) {
+      return response.data!;
+    } else {
+      throw ApiException(response.message);
+    }
   }
 
-  Future<double> getUserTotalSpends(String userId) async {
-    // Mock implementation
-    await Future.delayed(const Duration(milliseconds: 500));
-    return 12500.00;
+  // Get merchant transactions
+  Future<List<Transaction>> getMerchantTransactions(int merchantId) async {
+    final response = await get<List<Transaction>>(
+      '/payments/merchant/$merchantId',
+      (json) {
+        // Handle paginated response structure: data.content
+        if (json is Map<String, dynamic> && json.containsKey('content')) {
+          final content = json['content'];
+          if (content is List) {
+            return content
+                .map(
+                  (item) => Transaction.fromJson(item as Map<String, dynamic>),
+                )
+                .toList();
+          }
+        }
+        // Fallback: handle direct list response
+        if (json is List) {
+          return json
+              .map((item) => Transaction.fromJson(item as Map<String, dynamic>))
+              .toList();
+        }
+        return [];
+      },
+    );
+
+    if (response.success && response.data != null) {
+      return response.data!;
+    } else {
+      throw ApiException(response.message);
+    }
+  }
+
+  // Refund transaction
+  Future<Transaction> refundTransaction(
+    int transactionId, {
+    String? reason,
+  }) async {
+    final response = await post<Transaction>(
+      '/payments/$transactionId/refund',
+      {'reason': reason},
+      (json) => Transaction.fromJson(json as Map<String, dynamic>),
+    );
+
+    if (response.success && response.data != null) {
+      return response.data!;
+    } else {
+      throw ApiException(response.message);
+    }
+  }
+
+  // Get user total spends
+  Future<double> getUserTotalSpends(int userId) async {
+    final response = await get<double>(
+      '/payments/user/$userId/total-spends',
+      (json) => (json as num).toDouble(),
+    );
+
+    if (response.success && response.data != null) {
+      return response.data!;
+    } else {
+      throw ApiException(response.message);
+    }
   }
 }

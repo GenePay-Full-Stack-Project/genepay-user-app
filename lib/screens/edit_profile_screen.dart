@@ -19,7 +19,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   bool _loading = true;
   bool _saving = false;
-  String? _userId;
+  int? _userId;
 
   @override
   void dispose() {
