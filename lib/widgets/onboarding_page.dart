@@ -1,92 +1,62 @@
 import 'package:flutter/material.dart';
-
-class OnboardingData {
-  final String image;
-  final String title;
-  final String titleHighlight;
-  final String description;
-  final String descriptionHighlight;
-  final Color titleColor;
-  final Color highlightColor;
-
-  OnboardingData({
-    required this.image,
-    required this.title,
-    required this.titleHighlight,
-    required this.description,
-    this.descriptionHighlight = '',
-    required this.titleColor,
-    required this.highlightColor,
-  });
-}
+import '../screens/onboarding_screen.dart';
 
 class OnboardingPage extends StatelessWidget {
   final OnboardingData data;
 
   const OnboardingPage({super.key, required this.data});
 
-  List<TextSpan> _buildDescriptionSpans() {
+  List<TextSpan> _buildDescriptionSpans(OnboardingData data) {
     if (data.descriptionHighlight.isEmpty) {
-      return [
-        TextSpan(
-          text: data.description,
-          style: const TextStyle(color: Color(0xFF6B7280)),
-        ),
-      ];
+      return [TextSpan(text: data.description)];
     }
 
-    final lower = data.description.toLowerCase();
-    final highlight = data.descriptionHighlight.toLowerCase();
-    final start = lower.indexOf(highlight);
+    final parts = data.description.split(data.descriptionHighlight);
+    final spans = <TextSpan>[];
 
-    if (start == -1) {
-      return [
-        TextSpan(
-          text: data.description,
-          style: const TextStyle(color: Color(0xFF6B7280)),
-        ),
-      ];
+    for (int i = 0; i < parts.length; i++) {
+      if (parts[i].isNotEmpty) {
+        spans.add(TextSpan(text: parts[i]));
+      }
+      if (i < parts.length - 1) {
+        spans.add(
+          TextSpan(
+            text: data.descriptionHighlight,
+            style: TextStyle(
+              color: data.highlightColor,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        );
+      }
     }
 
-    final end = start + data.descriptionHighlight.length;
-
-    return [
-      TextSpan(
-        text: data.description.substring(0, start),
-        style: const TextStyle(color: Color(0xFF6B7280)),
-      ),
-      TextSpan(
-        text: data.description.substring(start, end),
-        style: TextStyle(color: data.highlightColor),
-      ),
-      TextSpan(
-        text: data.description.substring(end),
-        style: const TextStyle(color: Color(0xFF6B7280)),
-      ),
-    ];
+    return spans;
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 40.0),
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Spacer(),
-          Image.asset(
-            data.image,
-            width: 240,
-            height: 240,
-            fit: BoxFit.contain,
-          ),
+          // Image
+          Image.asset(data.image, height: 250, fit: BoxFit.contain),
           const SizedBox(height: 32),
+          // Title with highlighted word
           RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
-              style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: data.titleColor,
+                height: 1.2,
+              ),
               children: [
-                TextSpan(text: data.title, style: TextStyle(color: data.titleColor)),
+                TextSpan(text: data.title),
                 TextSpan(
                   text: data.titleHighlight,
                   style: TextStyle(color: data.highlightColor),
@@ -95,11 +65,16 @@ class OnboardingPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
+          // Description with highlighted word
           RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
-              style: const TextStyle(fontSize: 16),
-              children: _buildDescriptionSpans(),
+              style: const TextStyle(
+                fontSize: 16,
+                color: Color(0xFF6B7280),
+                height: 1.5,
+              ),
+              children: _buildDescriptionSpans(data),
             ),
           ),
           const Spacer(),
