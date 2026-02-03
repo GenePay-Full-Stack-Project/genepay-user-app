@@ -1,55 +1,93 @@
+import 'api_service.dart';
 import '../models/user.dart';
 
-class UserService {
-  static final UserService _instance = UserService._internal();
+class UserService extends ApiService {
+  UserService({super.client});
 
-  factory UserService() {
-    return _instance;
-  }
-
-  UserService._internal();
-
-  String? _authToken;
-
-  Future<void> setAuthToken(String token) async {
-    _authToken = token;
-  }
-
-  Future<User?> getUserById(String userId) async {
-    // Mock implementation - replace with actual API call
-    await Future.delayed(const Duration(milliseconds: 500));
-    return User(
-      id: userId,
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      nicNumber: '123456789V',
-      phoneNumber: '+94771234567',
-      faceEnrolled: false,
+  // Get user by ID
+  Future<User> getUserById(int userId) async {
+    final response = await get<User>(
+      '/users/$userId',
+      (json) => User.fromJson(json as Map<String, dynamic>),
     );
+
+    if (response.success && response.data != null) {
+      return response.data!;
+    } else {
+      throw ApiException(response.message);
+    }
   }
 
-  Future<User> updateUser(String userId, Map<String, dynamic> data) async {
-    // Mock implementation - replace with actual API call
-    await Future.delayed(const Duration(milliseconds: 800));
-    return User(
-      id: userId,
-      name: data['fullName'] ?? 'John Doe',
-      email: 'john.doe@example.com',
-      nicNumber: '123456789V',
-      phoneNumber: data['phoneNumber'] ?? '+94771234567',
-      faceEnrolled: false,
+  // Get user by email
+  Future<User> getUserByEmail(String email) async {
+    final response = await get<User>(
+      '/users/email/$email',
+      (json) => User.fromJson(json as Map<String, dynamic>),
     );
+
+    if (response.success && response.data != null) {
+      return response.data!;
+    } else {
+      throw ApiException(response.message);
+    }
   }
 
-  Future<void> linkFace(String userId, String faceId) async {
-    // Mock implementation - replace with actual API call
-    await Future.delayed(const Duration(milliseconds: 1000));
-    // In a real app, this would make an API call to link the face
+  // Link card to user
+  Future<User> linkCard(int userId, String paymentMethodToken) async {
+    final response = await post<User>(
+      '/users/$userId/link-card',
+      {'paymentMethodToken': paymentMethodToken},
+      (json) => User.fromJson(json as Map<String, dynamic>),
+    );
+
+    if (response.success && response.data != null) {
+      return response.data!;
+    } else {
+      throw ApiException(response.message);
+    }
   }
 
-  Future<void> deleteFace(String userId) async {
-    // Mock implementation - replace with actual API call
-    await Future.delayed(const Duration(milliseconds: 1000));
-    // In a real app, this would make an API call to delete the face
+  // Link face biometric to user
+  Future<User> linkFace(int userId, String faceId) async {
+    final response = await post<User>(
+      '/users/$userId/link-face',
+      {'faceId': faceId},
+      (json) => User.fromJson(json as Map<String, dynamic>),
+    );
+
+    if (response.success && response.data != null) {
+      return response.data!;
+    } else {
+      throw ApiException(response.message);
+    }
+  }
+
+  // Update user profile (if backend supports PUT /users/{userId})
+  Future<User> updateUser(int userId, Map<String, dynamic> updateData) async {
+    final response = await put<User>(
+      '/users/$userId',
+      updateData,
+      (json) => User.fromJson(json as Map<String, dynamic>),
+    );
+
+    if (response.success && response.data != null) {
+      return response.data!;
+    } else {
+      throw ApiException(response.message);
+    }
+  }
+
+  // Delete face biometric for user
+  Future<User> deleteFace(int userId) async {
+    final response = await delete<User>(
+      '/users/$userId/delete-face',
+      (json) => User.fromJson(json as Map<String, dynamic>),
+    );
+
+    if (response.success && response.data != null) {
+      return response.data!;
+    } else {
+      throw ApiException(response.message);
+    }
   }
 }

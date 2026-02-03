@@ -3,6 +3,26 @@ import '../widgets/onboarding_page.dart';
 import 'auth_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+class OnboardingData {
+  final String image;
+  final String title;
+  final String titleHighlight;
+  final String description;
+  final String descriptionHighlight;
+  final Color titleColor;
+  final Color highlightColor;
+
+  OnboardingData({
+    required this.image,
+    required this.title,
+    required this.titleHighlight,
+    required this.description,
+    required this.descriptionHighlight,
+    required this.titleColor,
+    required this.highlightColor,
+  });
+}
+
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
