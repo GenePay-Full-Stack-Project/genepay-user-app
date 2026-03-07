@@ -359,7 +359,7 @@ class _AddPaymentMethodScreenState extends State<AddPaymentMethodScreen> {
                                 ),
                                 children: [
                                   TextSpan(
-                                    text: 'By clicking, I agree to GenePay\'s ',
+                                    text: 'By clicking, I agree to FacePay\'s ',
                                   ),
                                   TextSpan(
                                     text: 'terms and conditions',

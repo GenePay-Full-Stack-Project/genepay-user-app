@@ -1,27 +1,7 @@
 import 'package:flutter/material.dart';
-import '../widgets/onboarding_page.dart';
+import 'package:genepay_user_app/widgets/onboarding_page.dart';
 import 'auth_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-class OnboardingData {
-  final String image;
-  final String title;
-  final String titleHighlight;
-  final String description;
-  final String descriptionHighlight;
-  final Color titleColor;
-  final Color highlightColor;
-
-  OnboardingData({
-    required this.image,
-    required this.title,
-    required this.titleHighlight,
-    required this.description,
-    required this.descriptionHighlight,
-    required this.titleColor,
-    required this.highlightColor,
-  });
-}
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -38,7 +18,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     OnboardingData(
       image: 'assets/welcome 1.png',
       title: 'Welcome to ',
-      titleHighlight: 'GenePay',
+      titleHighlight: 'FacePay',
       description: 'Pay with just your face\nfast, simple, secure.',
       descriptionHighlight: 'fast, simple, secure.',
       titleColor: Color(0xFF1E3A8A),
@@ -182,3 +162,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 }
 
+class OnboardingData {
+  final String image;
+  final String title;
+  final String titleHighlight;
+  final String description;
+  final String descriptionHighlight;
+  final Color titleColor;
+  final Color highlightColor;
+
+  OnboardingData({
+    required this.image,
+    required this.title,
+    required this.titleHighlight,
+    required this.description,
+    this.descriptionHighlight = '',
+    required this.titleColor,
+    required this.highlightColor,
+  });
+}

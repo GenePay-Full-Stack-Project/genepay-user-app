@@ -290,7 +290,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                                 ),
                                 children: [
                                   TextSpan(
-                                    text: 'By clicking, I agree to GenePay\'s ',
+                                    text: 'By clicking, I agree to FacePay\'s ',
                                   ),
                                   TextSpan(
                                     text: 'terms and conditions',

@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 height: 200,
               ),
               const SizedBox(height: 40),
-              // GenePay title with two colors
+              // FacePay title with two colors
               RichText(
                 text: const TextSpan(
                   style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),

@@ -21,11 +21,6 @@ class _MainNavigationState extends State<MainNavigation> {
     const ProfileScreen(),
   ];
 
-  String _getScreenTitle() {
-    const titles = ['Home', 'Wallet', 'Activity', 'Profile'];
-    return titles[_currentIndex];
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -17,41 +17,33 @@ class SuccessScreen extends StatelessWidget {
               const Spacer(),
               // Success icon
               Container(
-                width: 120,
-                height: 120,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF10B981).withOpacity(0.1),
+                width: 150,
+                height: 150,
+                decoration: const BoxDecoration(
+                  color: Colors.green,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(
-                  Icons.check_circle,
-                  color: Color(0xFF10B981),
-                  size: 80,
-                ),
+                child: const Icon(Icons.check, size: 100, color: Colors.white),
               ),
-              const SizedBox(height: 32),
-              // Success title
+              const SizedBox(height: 40),
+              // Success message
               const Text(
-                'Account Created!',
+                'Welcome aboard! 🚀',
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF0A1B5D),
+                  color: Color(0xFF1E3A8A),
                 ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
-              // Success message
               const Text(
-                'Your account has been created successfully.\nYou can now start using GenePay!',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Color(0xFF6B7280),
-                ),
+                'Your account is ready. Sign in to continue.',
+                style: TextStyle(fontSize: 16, color: Color(0xFF6B7280)),
                 textAlign: TextAlign.center,
               ),
               const Spacer(),
-              // Continue button
+              // Sign in button
               SizedBox(
                 width: double.infinity,
                 height: 56,
@@ -74,14 +66,12 @@ class SuccessScreen extends StatelessWidget {
                     elevation: 0,
                   ),
                   child: const Text(
-                    'Get Started',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    'Sign in',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
+              const SizedBox(height: 40),
             ],
           ),
         ),
