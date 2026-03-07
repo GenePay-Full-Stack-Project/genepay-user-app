@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/api_response.dart';
 
 class ApiService {
-  static const String baseUrl = 'https://api.facewallet-payment.corszero.com';
+  static const String baseUrl = 'http://192.168.5.166:8080';
   static const String apiPrefix = '/api/v1';
 
   final http.Client _client;

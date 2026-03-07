@@ -290,7 +290,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                                 ),
                                 children: [
                                   TextSpan(
-                                    text: 'By clicking, I agree to FacePay\'s ',
+                                    text: 'By clicking, I agree to GenePay\'s ',
                                   ),
                                   TextSpan(
                                     text: 'terms and conditions',
@@ -319,8 +319,8 @@ class _AddCardScreenState extends State<AddCardScreen> {
                                   final cardService = CardService();
 
                                   try {
-                                    final userId = await auth
-                                        .getCurrentUserId();
+                                    final userId =
+                                        await auth.getCurrentUserId();
                                     if (userId == null)
                                       throw Exception('No logged-in user');
 

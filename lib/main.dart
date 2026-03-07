@@ -38,8 +38,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _checkAuthentication() async {
-    final isAuthenticated = await ServiceManager().authService
-        .isAuthenticated();
+    final isAuthenticated =
+        await ServiceManager().authService.isAuthenticated();
     setState(() {
       _isAuthenticated = isAuthenticated;
       _isLoading = false;
@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
     // If onboarding should be shown, present it first.
     if (_showOnboarding) {
       return MaterialApp(
-        title: 'FacePay',
+        title: 'GenePay',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1E3A8A)),
@@ -69,7 +69,7 @@ class _MyAppState extends State<MyApp> {
     }
 
     return MaterialApp(
-      title: 'FacePay',
+      title: 'GenePay',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1E3A8A)),

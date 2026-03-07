@@ -33,7 +33,7 @@ class AuthScreen extends StatelessWidget {
                             height: 250,
                           ),
                           const SizedBox(height: 32),
-                          // FacePay title with two colors
+                          // GenePay title with two colors
                           RichText(
                             text: const TextSpan(
                               style: TextStyle(
