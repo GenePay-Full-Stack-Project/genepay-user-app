@@ -222,8 +222,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       );
                                     }
                                   } finally {
-                                    if (mounted)
+                                    if (mounted) {
                                       setState(() => _saving = false);
+                                    }
                                   }
                                 },
                           style: ElevatedButton.styleFrom(

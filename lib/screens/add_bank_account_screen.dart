@@ -113,7 +113,7 @@ class _AddBankAccountScreenState extends State<AddBankAccountScreen> {
                       ),
                       const SizedBox(height: 8),
                       DropdownButtonFormField<String>(
-                        value: _selectedBank,
+                        initialValue: _selectedBank,
                         dropdownColor: const Color(0xFF2A2A2A),
                         style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
@@ -264,7 +264,7 @@ class _AddBankAccountScreenState extends State<AddBankAccountScreen> {
                                 _agreedToTerms = value ?? false;
                               });
                             },
-                            fillColor: MaterialStateProperty.all(Colors.white),
+                            fillColor: WidgetStateProperty.all(Colors.white),
                             checkColor: Colors.black,
                           ),
                           Expanded(

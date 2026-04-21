@@ -278,7 +278,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                                 _agreedToTerms = value ?? false;
                               });
                             },
-                            fillColor: MaterialStateProperty.all(Colors.white),
+                            fillColor: WidgetStateProperty.all(Colors.white),
                             checkColor: Colors.black,
                           ),
                           Expanded(
@@ -311,8 +311,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
                         child: ElevatedButton(
                           onPressed: _agreedToTerms
                               ? () async {
-                                  if (!_formKey.currentState!.validate())
+                                  if (!_formKey.currentState!.validate()) {
                                     return;
+                                  }
                                   setState(() => _submitting = true);
 
                                   final auth = AuthService();
@@ -321,13 +322,15 @@ class _AddCardScreenState extends State<AddCardScreen> {
                                   try {
                                     final userId =
                                         await auth.getCurrentUserId();
-                                    if (userId == null)
+                                    if (userId == null) {
                                       throw Exception('No logged-in user');
+                                    }
 
-                                    if (auth.getToken() != null)
+                                    if (auth.getToken() != null) {
                                       await cardService.setAuthToken(
                                         auth.getToken()!,
                                       );
+                                    }
 
                                     final cardNumber = _cardNumberController
                                         .text
@@ -365,8 +368,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
                                       error: e,
                                     );
                                   } finally {
-                                    if (mounted)
+                                    if (mounted) {
                                       setState(() => _submitting = false);
+                                    }
                                   }
                                 }
                               : null,
