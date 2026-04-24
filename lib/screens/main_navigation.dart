@@ -14,18 +14,26 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
 
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const WalletScreen(),
-    const ActivityScreen(),
-    const ProfileScreen(),
-  ];
+  Widget _buildScreen(int index) {
+    switch (index) {
+      case 0:
+        return const HomeScreen();
+      case 1:
+        return const WalletScreen();
+      case 2:
+        return const ActivityScreen();
+      case 3:
+        return const ProfileScreen();
+      default:
+        return const HomeScreen();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: _screens[_currentIndex],
+      body: _buildScreen(_currentIndex),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(left: 24, right: 24, bottom: 16),
         child: Container(

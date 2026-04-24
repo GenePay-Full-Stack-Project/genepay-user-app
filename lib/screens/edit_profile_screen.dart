@@ -62,69 +62,67 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Header with Edit Profile
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_rounded, color: Color(0xFF0A1B5D)),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text(
+          'Edit Profile',
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF0A1B5D),
+          ),
+        ),
+        centerTitle: true,
+      ),
+      body: Column(
+        children: [
+
+            // Profile Picture
+            const SizedBox(height: 24),
+            Center(
+              child: Stack(
                 children: [
-                  const Text(
-                    'Edit Profile',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF0A1B5D),
+                  Container(
+                    width: 120,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: const Color(0xFF0A1B5D),
+                        width: 3,
+                      ),
+                      color: const Color(0xFFE5E7EB),
+                    ),
+                    child: const Icon(
+                      Icons.person,
+                      size: 60,
+                      color: Color(0xFF6B7280),
                     ),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.settings, color: Color(0xFF1E3A8A)),
-                    onPressed: () {},
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF0A1B5D),
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 2),
+                      ),
+                      child: const Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                        size: 16,
+                      ),
+                    ),
                   ),
                 ],
               ),
-            ),
-
-            // Profile Picture
-            Stack(
-              children: [
-                Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: const Color(0xFF0A1B5D),
-                      width: 3,
-                    ),
-                    color: const Color(0xFFE5E7EB),
-                  ),
-                  child: const Icon(
-                    Icons.person,
-                    size: 60,
-                    color: Color(0xFF6B7280),
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF0A1B5D),
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 2),
-                    ),
-                    child: const Icon(
-                      Icons.check,
-                      color: Colors.white,
-                      size: 16,
-                    ),
-                  ),
-                ),
-              ],
             ),
             const SizedBox(height: 32),
 
@@ -258,7 +256,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
           ],
         ),
-      ),
     );
   }
 
