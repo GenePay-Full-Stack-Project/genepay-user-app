@@ -52,7 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
-                          'Edit Profile',
+                          'Profile',
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -126,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               MaterialPageRoute(
                                 builder: (context) => const EditProfileScreen(),
                               ),
-                            );
+                            ).then((_) => _loadUser());
                           },
                         ),
                         _buildInfoField(

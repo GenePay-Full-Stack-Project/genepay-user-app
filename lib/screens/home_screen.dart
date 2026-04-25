@@ -46,8 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
       CardModel? defaultCard;
       try {
-        if (u.id != null)
+        if (u.id != null) {
           defaultCard = await cardService.getUserDefaultCard(u.id!);
+        }
       } catch (_) {}
 
       setState(() {

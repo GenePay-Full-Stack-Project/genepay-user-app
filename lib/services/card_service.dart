@@ -58,7 +58,7 @@ class CardService extends ApiService {
   Future<void> removeUserCard(int userId, int cardId) async {
     final response = await delete<void>(
       '/cards/user/$userId/$cardId',
-      (json) => null,
+      (json) {},
     );
 
     if (response.success) return;

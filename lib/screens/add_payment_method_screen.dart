@@ -347,7 +347,7 @@ class _AddPaymentMethodScreenState extends State<AddPaymentMethodScreen> {
                                 _agreedToTerms = value ?? false;
                               });
                             },
-                            fillColor: MaterialStateProperty.all(Colors.white),
+                            fillColor: WidgetStateProperty.all(Colors.white),
                             checkColor: Colors.black,
                           ),
                           Expanded(

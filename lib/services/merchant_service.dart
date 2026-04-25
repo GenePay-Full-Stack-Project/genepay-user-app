@@ -1,9 +1,8 @@
-import 'package:http/http.dart' as http;
 import 'api_service.dart';
 import '../models/merchant.dart';
 
 class MerchantService extends ApiService {
-  MerchantService({http.Client? client}) : super(client: client);
+  MerchantService({super.client});
 
   // Register merchant
   Future<Merchant> registerMerchant({

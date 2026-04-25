@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'add_payment_method_screen.dart';
-import 'qr_scanner_screen.dart';
-import 'biometric_success_screen.dart';
+import 'face_enrollment_screen.dart';
 import '../services/auth_service.dart';
 import '../services/user_service.dart';
 import '../services/card_service.dart';
@@ -152,76 +151,6 @@ class _WalletScreenState extends State<WalletScreen> {
     }
   }
 
-  Future<void> _linkFaceId(String faceId) async {
-    final auth = AuthService();
-    final userService = UserService();
-
-    try {
-      // Show loading indicator
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const Center(
-          child: CircularProgressIndicator(color: Color(0xFFFF5542)),
-        ),
-      );
-
-      final userId = await auth.getCurrentUserId();
-      if (userId == null) {
-        throw Exception('User not logged in');
-      }
-
-      final token = auth.getToken();
-      if (token != null) {
-        await userService.setAuthToken(token);
-      }
-
-      // Link face to user account
-      await userService.linkFace(userId, faceId);
-
-      // Close loading dialog
-      if (mounted) {
-        Navigator.pop(context);
-      }
-
-      // Navigate to success screen
-      if (mounted) {
-        final result = await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const BiometricSuccessScreen(),
-          ),
-        );
-
-        // Reload user data after returning from success screen
-        if (result == true && mounted) {
-          await _loadUser();
-        }
-      }
-    } catch (e) {
-      // Close loading dialog
-      if (mounted) {
-        Navigator.pop(context);
-      }
-
-      // Show error
-      if (mounted) {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('Error'),
-            content: Text('Failed to link face: ${e.toString()}'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('OK'),
-              ),
-            ],
-          ),
-        );
-      }
-    }
-  }
 
   Future<void> _deleteFace() async {
     final auth = AuthService();
@@ -580,16 +509,11 @@ class _WalletScreenState extends State<WalletScreen> {
               final result = await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const QrScannerScreen(),
+                  builder: (context) => const FaceEnrollmentScreen(),
                 ),
               );
-
-              if (result != null && result is Map<String, dynamic>) {
-                // Extract faceId from QR data
-                final faceId = result['faceId'] as String?;
-                if (faceId != null && mounted) {
-                  await _linkFaceId(faceId);
-                }
+              if (result == true && mounted) {
+                await _loadUser();
               }
             },
             child: Container(

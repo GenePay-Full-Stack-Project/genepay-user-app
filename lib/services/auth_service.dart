@@ -79,17 +79,16 @@ class AuthService extends ApiService {
     await clearAuthToken();
   }
 
-  // Check if user is authenticated
+  // Check if user is authenticated by fetching the current user profile.
+  // This validates the token AND confirms the user still exists in the DB.
   Future<bool> isAuthenticated() async {
     await initialize();
     final token = getToken();
     if (token == null || token.isEmpty) return false;
-
     try {
-      final result = await verifyToken(token);
-      return result.valid;
+      final user = await getCurrentUser();
+      return user.id != null;
     } catch (_) {
-      // If verification fails (network or backend), treat as not authenticated
       return false;
     }
   }
